@@ -1,4 +1,4 @@
-const db = require('./db')
+const db = require('./configuration')
 
 const userData = `CREATE TABLE IF NOT EXISTS "User_Management_Table" (
     id SERIAL PRIMARY KEY,
@@ -18,7 +18,7 @@ const Variant_A = `CREATE TABLE IF NOT EXISTS "Variant_A" (
     resistance_testing NUMERIC(7,2),
     length_test NUMERIC(7,2),
     quality_control BOOLEAN,
-    current_a NUMERIC(7,2),
+    current NUMERIC(7,2),
     time NUMERIC(7,2),
     force NUMERIC(7,2),
     distance NUMERIC(7,2),
@@ -34,7 +34,7 @@ const Variant_B = `CREATE TABLE IF NOT EXISTS "Variant_B" (
     resistance_testing NUMERIC(7,2),
     length_test NUMERIC(7,2),
     quality_control BOOLEAN,
-    current_b NUMERIC(7,2),
+    current NUMERIC(7,2),
     time NUMERIC(7,2),
     force NUMERIC(7,2),
     distance NUMERIC(7,2),
@@ -50,7 +50,7 @@ const Variant_C = `CREATE TABLE IF NOT EXISTS "Variant_C" (
     resistance_testing NUMERIC(7,2),
     length_test NUMERIC(7,2),
     quality_control BOOLEAN,
-    current_c NUMERIC(7,2),
+    current NUMERIC(7,2),
     time NUMERIC(7,2),
     force NUMERIC(7,2),
     distance NUMERIC(7,2),
@@ -176,6 +176,8 @@ const createTables = async function () {
         return e.message    
     }
 }
+
+
 
 module.exports = createTables
 
