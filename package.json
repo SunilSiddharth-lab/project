@@ -12,10 +12,12 @@
   "dependencies": {
     "another-json-schema": "^3.8.4",
     "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
     "express": "^4.18.1",
     "nodemon": "^2.0.19",
     "pg": "^8.7.3",
     "pg-promise": "^10.11.1",
-    "socket.io": "^4.5.1"
+    "socket.io": "^4.5.1",
+    "socketio": "^1.0.0"
   }
 }
