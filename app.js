@@ -1,7 +1,7 @@
 const express = require('express')
 const db = require('./db/configuration')
 const path = require('path')
-const cors = require("cors")
+// const cors = require("cors")
 const http = require('http')
 const socketio = require('socket.io')
 
@@ -15,7 +15,6 @@ app.use(express.json())
 const userRouter = require('./router/database')
 app.use(userRouter)
 
-// app.use(express.json())
 
 const publicDirectotyPath = path.join(__dirname,'./public')
 app.use(express.static(publicDirectotyPath))
@@ -26,87 +25,56 @@ app.use(express.static(publicDirectotyPath))
 //       origin: "*",
 //     })
 //   );
-io.on('connection' ,async(socket, tablename = "Variant_A") => {
+io.on('connection' ,(socket) => {
   console.log('New connection in place')
-  if (tablename === "Variant_A"){
-    const data = await db.manyOrNone(`SELECT * FROM "Variant_A" ORDER BY created_at DESC`)
-    const load_test = data[0].load_test
-    const resistance_testing = data[0].resistance_testing
-    const length_test = data[0].length_test
-    const quality_control = data[0].quality_control
-    const current = data[0].current
-    const time = data[0].time
-    const force = data[0].force
-    const distance = data[0].distance
-    const temperature = data[0].temperature
-    const water_flow = data[0].water_flow
-    const serial_number = data[0].serial_number
-    io.emit ('Message', { 
-        d1 : load_test, 
-        d2: resistance_testing, 
-        d3: length_test, 
-        d4: quality_control, 
-        d5: current, 
-        d6: time, 
-        d7: force, 
-        d8: distance, 
-        d9: temperature, 
-        d10: water_flow, 
-        d11: serial_number
-      })
-    }else if (tablename === "Variant_B"){
-      const data = await db.manyOrNone(`SELECT * FROM "Variant_B" ORDER BY created_at DESC`)
-      const load_test = data[0].load_test
-      const resistance_testing = data[0].resistance_testing
-      const length_test = data[0].length_test
-      const quality_control = data[0].quality_control
-      const current = data[0].current
-      const time = data[0].time
-      const force = data[0].force
-      const distance = data[0].distance
-      const temperature = data[0].temperature
-      const water_flow = data[0].water_flow
-      const serial_number = data[0].serial_number
+  socket.on('sendMessage', async (message) => {
+    if (message === "Variant_A"){
+      const data = await db.manyOrNone(`SELECT * FROM "Variant_A" ORDER BY created_at DESC`) 
       io.emit ('Message', { 
-          d1 : load_test, 
-          d2: resistance_testing, 
-          d3: length_test, 
-          d4: quality_control, 
-          d5: current, 
-          d6: time, 
-          d7: force, 
-          d8: distance, 
-          d9: temperature, 
-          d10: water_flow, 
-          d11: serial_number
-      })
-    }if (tablename === "Variant_C"){
-      const data = await db.manyOrNone(`SELECT * FROM "Variant_C" ORDER BY created_at DESC`)
-      const load_test = data[0].load_test
-      const resistance_testing = data[0].resistance_testing
-      const length_test = data[0].length_test
-      const quality_control = data[0].quality_control
-      const current = data[0].current
-      const time = data[0].time
-      const force = data[0].force
-      const distance = data[0].distance
-      const temperature = data[0].temperature
-      const water_flow = data[0].water_flow
-      const serial_number = data[0].serial_number
-      io.emit ('Message', { 
-          d1 : load_test, 
-          d2: resistance_testing, 
-          d3: length_test, 
-          d4: quality_control, 
-          d5: current, 
-          d6: time, 
-          d7: force, 
-          d8: distance, 
-          d9: temperature, 
-          d10: water_flow, 
-          d11: serial_number
-      })
-    }
+          d1 : data[0].load_test, 
+          d2: data[0].resistance_testing, 
+          d3: data[0].length_test, 
+          d4: data[0].quality_control, 
+          d5: data[0].current, 
+          d6: data[0].time, 
+          d7: data[0].force, 
+          d8: data[0].distance, 
+          d9: data[0].temperature, 
+          d10: data[0].water_flow, 
+          d11: data[0].serial_number
+        })
+      }else if (message === "Variant_B"){
+        const data = await db.manyOrNone(`SELECT * FROM "Variant_B" ORDER BY created_at DESC`)
+        io.emit ('Message', { 
+          d1 : data[0].load_test, 
+          d2: data[0].resistance_testing, 
+          d3: data[0].length_test, 
+          d4: data[0].quality_control, 
+          d5: data[0].current, 
+          d6: data[0].time, 
+          d7: data[0].force, 
+          d8: data[0].distance, 
+          d9: data[0].temperature, 
+          d10: data[0].water_flow, 
+          d11: data[0].serial_number
+        })
+      }if (message === "Variant_C"){
+        const data = await db.manyOrNone(`SELECT * FROM "Variant_C" ORDER BY created_at DESC`)
+        io.emit ('Message', { 
+          d1: data[0].load_test, 
+          d2: data[0].resistance_testing, 
+          d3: data[0].length_test, 
+          d4: data[0].quality_control, 
+          d5: data[0].current, 
+          d6: data[0].time, 
+          d7: data[0].force, 
+          d8: data[0].distance, 
+          d9: data[0].temperature, 
+          d10: data[0].water_flow, 
+          d11: data[0].serial_number
+        })
+      }
+  })
 })  
   
 
